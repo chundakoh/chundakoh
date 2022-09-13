@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="create_task.css">
+         <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:60px;height:60px;" class="left">
+    <h1 class="thin">INDIANA UNIVERSITY</h1>
+    
+</div>
+<div class="header2">
+    <h5 class="thin">KELLEY SCHOOL OF BUSINESS</h5>
+    <h2>Globase Guatamala</h2>
+</div>
+
+<div class="navbar">
+  <a href="f-homepage.html">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Faculty 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-view task list.html">View Task List</a>
+      <a href="f-add lt member.html">Add Leadership Team Member</a>
+      <a href="f-send low eval scores.html">View Low Score Reports</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Leadership Team 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="f-create and update task.html">Create Task &amp; Update Task</a>
+        <a href="f-record student interview summary.html">Record Student Interview Summary</a>
+        <a href="f-accept or reject and notify students.html">Accept/Reject &amp; Notify Students</a>
+        <a href="f-create new client.html">Create New Client</a>
+        <a href="f-record client interview summary.html">Record Client Interview Summary</a>
+        <a href="f-accept or reject and notify clients.html">Accept/Reject &amp; Notify Clients</a>
+        <a href="f-request student preferences.html">Request Student Preferences</a>
+        <a href="f-assign teams and leads.html">Assign Teams &amp; Team Leads</a>
+        <a href="f-capture weekly meeting agenda.html">Submit Weekly Meeting Agenda</a>
+        <a href="f-create progress report.html">Create Progress Report</a>
+        <a href="f-confirm final report and presentation.html">Confirm Final Presentation &amp; Report</a>
+        <a href="f-send peer eval request.html">Send Peer Evaluation Request</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Participant 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-receive student application.html">Submit Student Application</a>
+      <a href="f-record student preferences.html">Record Student Preferences</a>
+      <a href="f-capture peer evals.html">Submit Peer Evaluations</a>
+    </div>
+  </div> 
+</div>
+    </head>
+<body>
+
+    <br>
+    
+<h2>Task List</h2>
+    <br><br>
+
+<h3>Use the List to monitor the (% Completed) for each Task in each Category. </h3>
+<button class="accordion">Student Selection</button>
+        <div class="panel">
+            <p>Schedule Interviews</p>
+                <div class="meter">
+                <span style="width: 100%"><b>_100% Complete</b></span>
+                </div>
+            <p>Conduct Student Interviews</p>
+                <div class="meter">
+                <span style="width: 75%"><b>_75% Complete</b></span>
+                </div>
+            <p>Accept or Reject Students</p>
+                <div class="meter">
+                <span style="width: 15%"><b>_15% Complete</b></span>
+                </div>
+    </div>
+            
+    <br> <br>
+<button class="accordion">Client Selection</button>
+        <div class="panel">
+             <p>Find &amp; Create New Clients</p>
+                <div class="meter">
+                <span style="width: 100%"><b>_100% Complete</b></span>
+                </div>
+             <p>Record Client Interview Summary</p>
+                <div class="meter">
+                <span style="width: 95%"><b>_95% Complete</b></span>
+                </div>
+            <p>Accept or Reject Clients</p>
+                <div class="meter">
+                <span style="width: 55%"><b>_55% Complete</b></span>
+                </div>
+        </div>
+    <br> <br>
+<button class="accordion">Syllabus Preparation</button>
+        <div class="panel">
+            <p><i>There are <b>0</b> tasks under Syllabus Preparation. Please refer to the Syllabus on Canvas.</i></p>
+    </div>
+    <br> <br>
+<button class="accordion">Course Logistics</button>
+        <div class="panel">
+            <p>Participant Captures Weekly Progress Report from Leadership Team</p>
+                <div class="meter">
+                <span style="width: 100%"><b>_100% Complete</b></span>
+                </div>
+             <p>Confirmed Final Presentations</p>
+                <div class="meter">
+                <span style="width: 75%"><b>_75% Complete</b></span>
+                </div>
+            <p>Confirmed Final Reports</p>
+                <div class="meter">
+                <span style="width: 15%"><b>_15% Complete</b></span>
+                </div>
+        </div>
+    <br> <br>
+<button class="accordion">In-Country Logistics</button>
+        <div class="panel">
+            <p><i>Contact the Expedia Travel Agency and Leadership Team about In-Country logistics. </i>
+        </div>
+    <script>
+    var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+        </script>
+    
+    </body>
+<br><br><br><br><br>
+    <footer>
+        
+    <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:100px;height:100px;" class="left">
+        <div class="row">
+  <h1 class="rightthin">INDIANA UNIVERSITY</h1>
+    <h2 class="rightthin">Team 15 Consulting</h2>
+        
+        </div>
+        </div>
+    </footer>
+    
+
+</html>

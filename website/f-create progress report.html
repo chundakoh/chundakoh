@@ -1,0 +1,245 @@
+<html>
+
+  <head> <link rel="stylesheet" href="create_Task.css">
+    
+     <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:60px;height:60px;" class="left">
+    <h1 class="thin">INDIANA UNIVERSITY</h1>
+    
+</div>
+<div class="header2">
+    <h5 class="thin">KELLEY SCHOOL OF BUSINESS</h5>
+    <h2>Globase Guatamala</h2>
+</div>
+
+<div class="navbar">
+  <a href="f-homepage.html">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Faculty 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-view task list.html">View Task List</a>
+      <a href="f-add lt member.html">Add Leadership Team Member</a>
+      <a href="f-send low eval scores.html">View Low Score Reports</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Leadership Team 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="f-create and update task.html">Create Task &amp; Update Task</a>
+        <a href="f-record student interview summary.html">Record Student Interview Summary</a>
+        <a href="f-accept or reject and notify students.html">Accept/Reject &amp; Notify Students</a>
+        <a href="f-create new client.html">Create New Client</a>
+        <a href="f-record client interview summary.html">Record Client Interview Summary</a>
+        <a href="f-accept or reject and notify clients.html">Accept/Reject &amp; Notify Clients</a>
+        <a href="f-request student preferences.html">Request Student Preferences</a>
+        <a href="f-assign teams and leads.html">Assign Teams &amp; Team Leads</a>
+        <a href="f-capture weekly meeting agenda.html">Submit Weekly Meeting Agenda</a>
+        <a href="f-create progress report.html">Create Progress Report</a>
+        <a href="f-confirm final report and presentation.html">Confirm Final Presentation &amp; Report</a>
+        <a href="f-send peer eval request.html">Send Peer Evaluation Request</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Participant 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-receive student application.html">Submit Student Application</a>
+      <a href="f-record student preferences.html">Record Student Preferences</a>
+      <a href="f-capture peer evals.html">Submit Peer Evaluations</a>
+    </div>
+  </div> 
+</div>
+  </head>
+  <br>
+  
+    <body>
+
+
+<h2>Teams Weekly Progress Report</h2>
+    <h4>Upload your team's weekly progress report below. Your LT analysis should be included in the same document as the progress report. Click the "Submit" button when you're ready. You can view your team's past progress reports by clicking "View Details."</h4>
+<br><br>
+<body>
+    <form>
+       <fieldset>
+          <legend>Submit Weekly Progress Report</legend>
+          <p>
+              <label> Enter Team Name: (ex: Team 1)</label>
+              <input type="text" required> <br><br>
+              <label> Upload Progress Report:</label>
+              <input type="file" id="myFile" name="filename"><br><br>
+                <input type="submit" class="button">
+              
+              <script>
+                function submit1() {
+                    alert("Progress Report has been submitted!")
+                }
+              
+              </script>
+            </p>
+       </fieldset>
+    </form>
+
+
+<br>
+<table id="Progressreport">
+  <tr>
+    <th>Team</th>
+    <th>Progress Report &amp; LT Analysis</th> 
+  </tr>
+  <tr>
+    <td>Team 1</td>
+    <td><button class="accordion">
+          View Details: 1/7/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>Started giving information to participants about Clients.</p>
+            <h4>LT analysis</h4>
+                <p>Introduced everyone to the team so they could get to know each other.</p>
+        </div>
+        <button class="accordion">
+          View Details: 1/14/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>In this progress report, we would like to report our team's activities. After this week, we completed requirements gathering, client research, identification of the problem's scope. We have also held multiple meetings with the client to gain a greater understanding.</p>
+            <h4>LT analysis</h4>
+                <p>The team has made strong headway this week. They show strong signs of collaboration and trust, and each team member are utilizing their individual strengths. Much progress has been made this week, and they are on track to complete the next steps of the program.</p>
+        </div>
+      </td>
+  </tr>
+  <tr>
+    <td>Team 2</td>
+        <td><button class="accordion">
+          View Details: 1/7/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>We held multiple meetings throughout the week to work on the project. Currently on pace to finish the project on time.</p>
+            <h4>LT analysis</h4>
+                <p>Everyone was able to attend all meetings this week. We had a lot of productive sessions to wrap up Part 2 of our project.</p>
+        </div>
+        <button class="accordion">
+          View Details: 1/14/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>This week we foucsed on rebuilding and testing our parts. The project is currently under inspection from all the team members. Once we've collected the results, we'll review together.</p>
+            <h4>LT analysis</h4>
+                <p>Each member in the group had the delegation to finish their editing of the project. Then at the end, we're planning to have one final group collab edit.</p>
+        </div>
+      </td>
+  </tr>
+<tr>
+    <td>Team 3</td>
+        <td><button class="accordion">
+          View Details: 1/7/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>In this progress report, we would like to report our team's activities. After this week, we completed requirements gathering, client research, identification of the problem's scope. We have also held multiple meetings with the client to gain a greater understanding.</p>
+            <h4>LT analysis</h4>
+                <p>The team has made strong headway this week. They show strong signs of collaboration and trust, and each team member are utilizing their individual strengths. Much progress has been made this week, and they are on track to complete the next steps of the program.</p>
+        </div>
+        <button class="accordion">
+          View Details: 1/14/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>We held multiple meetings throughout the week to work on the project. Currently on pace to finish the project on time.</p>
+            <h4>LT analysis</h4>
+                <p>Everyone was able to attend all meetings this week. We had a lot of productive sessions to wrap up Part 2 of our project.</p>
+        </div>
+      </td>
+  </tr>
+<tr>
+    <td>Team 4</td>
+        <td><button class="accordion">
+          View Details: 1/7/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>In this progress report, we would like to report our team's activities. After this week, we completed requirements gathering, client research, identification of the problem's scope. We have also held multiple meetings with the client to gain a greater understanding.</p>
+            <h4>LT analysis</h4>
+                <p>The team has made strong headway this week. They show strong signs of collaboration and trust, and each team member are utilizing their individual strengths. Much progress has been made this week, and they are on track to complete the next steps of the program.</p>
+        </div>
+        <button class="accordion">
+          View Details: 1/14/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>In this progress report, we would like to report our team's activities. After this week, we completed requirements gathering, client research, identification of the problem's scope. We have also held multiple meetings with the client to gain a greater understanding.</p>
+            <h4>LT analysis</h4>
+                <p>The team has made strong headway this week. They show strong signs of collaboration and trust, and each team member are utilizing their individual strengths. Much progress has been made this week, and they are on track to complete the next steps of the program.</p>
+        </div>
+      </td>
+  </tr>
+<tr>
+    <td>Team 5</td>
+        <td><button class="accordion">
+          View Details: 1/7/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>In this progress report, we would like to report our team's activities. After this week, we completed requirements gathering, client research, identification of the problem's scope. We have also held multiple meetings with the client to gain a greater understanding.</p>
+            <h4>LT analysis</h4>
+                <p>The team has made strong headway this week. They show strong signs of collaboration and trust, and each team member are utilizing their individual strengths. Much progress has been made this week, and they are on track to complete the next steps of the program.</p>
+        </div>
+        <button class="accordion">
+          View Details: 1/14/20
+      </button>
+        <div class="panel">
+            <h4>Progress Report</h4>
+                <p>In this progress report, we would like to report our team's activities. After this week, we completed requirements gathering, client research, identification of the problem's scope. We have also held multiple meetings with the client to gain a greater understanding.</p>
+            <h4>LT analysis</h4>
+                <p>The team has made strong headway this week. They show strong signs of collaboration and trust, and each team member are utilizing their individual strengths. Much progress has been made this week, and they are on track to complete the next steps of the program.</p>
+        </div>
+      </td>
+  </tr>
+                         
+</table>
+      <script>
+function ABC() {
+  alert("Report sent to LT members");
+}
+  </script>
+
+    <script>
+    var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+        </script>
+  </body>
+  
+  <br><br>
+    <footer>
+        
+    <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:100px;height:100px;" class="left">
+        <div class="row">
+  <h1 class="rightthin">INDIANA UNIVERSITY</h1>
+    <h2 class="rightthin">Team 15 Consulting</h2>
+       
+    
+        </div></div>
+  </footer>
+
+</html>

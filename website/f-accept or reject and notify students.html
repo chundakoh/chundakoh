@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="create_task.css">
+       <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:60px;height:60px;" class="left">
+    <h1 class="thin">INDIANA UNIVERSITY</h1>
+    
+</div>
+<div class="header2">
+    <h5 class="thin">KELLEY SCHOOL OF BUSINESS</h5>
+    <h2>Globase Guatamala</h2>
+</div>
+
+<div class="navbar">
+  <a href="f-homepage.html">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Faculty 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-view task list.html">View Task List</a>
+      <a href="f-add lt member.html">Add Leadership Team Member</a>
+      <a href="f-send low eval scores.html">View Low Score Reports</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Leadership Team 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="f-create and update task.html">Create Task &amp; Update Task</a>
+        <a href="f-record student interview summary.html">Record Student Interview Summary</a>
+        <a href="f-accept or reject and notify students.html">Accept/Reject &amp; Notify Students</a>
+        <a href="f-create new client.html">Create New Client</a>
+        <a href="f-record client interview summary.html">Record Client Interview Summary</a>
+        <a href="f-accept or reject and notify clients.html">Accept/Reject &amp; Notify Clients</a>
+        <a href="f-request student preferences.html">Request Student Preferences</a>
+        <a href="f-assign teams and leads.html">Assign Teams &amp; Team Leads</a>
+        <a href="f-capture weekly meeting agenda.html">Submit Weekly Meeting Agenda</a>
+        <a href="f-create progress report.html">Create Progress Report</a>
+        <a href="f-confirm final report and presentation.html">Confirm Final Presentation &amp; Report</a>
+        <a href="f-send peer eval request.html">Send Peer Evaluation Request</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Participant 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-receive student application.html">Submit Student Application</a>
+      <a href="f-record student preferences.html">Record Student Preferences</a>
+      <a href="f-capture peer evals.html">Submit Peer Evaluations</a>
+    </div>
+  </div> 
+</div>
+    </head>    
+    <body>
+    
+    <br>
+  <h2>Accept or Reject Applicants</h2>
+    <h4>Potential participants that have already been interviewed for the program are listed below. Click on "View Details" to look at the application and interview summary. Use the "Accept" and "Reject" buttons to select students.</h4>
+    <h5>Remember to read and assess the applicant's details before accepting or rejecting! </h5>
+    
+    <br> <br>
+  
+  <h3>Applicants</h3>
+  <ul>
+      
+      
+    <li>Amy Alfonso</li> 
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Student ID: 2000012345</p>
+                <p>Offering ID: A1234567</p>
+                <p>School Year: 1</p>
+                <p>Phone Number: 555-123-4567</p>
+                <p>Email: aalfonso@iu.edu</p>
+            <h4>Interview Notes</h4>
+            <p>The participant was satisfactory in all regards. Seems open and willing to accept new challenges. Very warm and friendly. Strong Problem-solver.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The student will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The student will be notified immediately.");}
+                  </script>
+        </div>
+      
+
+      <li>Bill Baxter</li>
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Student ID: 2000022345</p>
+                <p>Offering ID: A2234567</p>
+                <p>School Year: 2</p>
+                <p>Phone Number: 666-123-4567</p>
+                <p>Email: bbaxter@iu.edu</p>
+            <h4>Interview Notes</h4>
+            <p>The participant was satisfactory in some regards but not all. Could not provide past experience of being a strong team player. Showed lack of resiliency during case interview portion. However, the student showed strong signs of curiousity.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The student will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The student will be notified immediately.");}
+                  </script>
+        </div>
+      
+    <li>Christie Crawford</li>
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Student ID: 2000032345</p>
+                <p>Offering ID: A3234567</p>
+                <p>School Year: 1</p>
+                <p>Phone Number: 777-123-4567</p>
+                <p>Email: ccrawford@iu.edu</p>
+            <h4>Interview Notes</h4>
+            <p>The participant was unsatisfactory in many regards. Ill-mannered and brash during much of the interview. Was very defensive when questioned during the case interview portion. However, the student showed strong signs of curiousity.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The student will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The student will be notified immediately.");}
+                  </script>
+        </div>
+      
+      <li>Derrick Davidson</li>
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Student ID: 2000042345</p>
+                <p>Offering ID: A4234567</p>
+                <p>School Year: 1</p>
+                <p>Phone Number: 888-123-4567</p>
+                <p>Email: ddavid@iu.edu</p>
+            <h4>Interview Notes</h4>
+            <p>The participant was satisfactory in all regards. Well-spoken, strong at problem-solving. Gave excellent examples of being a team leader/player.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The student will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The student will be notified immediately.");}
+                  </script>
+        </div>
+      
+        <li>Eliza Ellington</li>
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Student ID: 2000052345</p>
+                <p>Offering ID: A5234567</p>
+                <p>School Year: 2</p>
+                <p>Phone Number: 999-123-4567</p>
+                <p>Email: eelling@iu.edu</p>
+            <p>The participant was satisfactory in all regards. Asked inquisitive and relevant questions during the case interview. Very personable and friendly. Brings a unique perspective. </p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The student will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The student will be notified immediately.");}
+                  </script>
+        </div>
+      
+</ul>
+    
+    <!-- JAVASCRIPT FOR ACCORDION-->
+      <script>
+         var acc = document.getElementsByClassName("accordion");
+          var i;
+
+          for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+            } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+                    } 
+                });
+            }
+      </script>
+        
+    </body>
+  
+<br> <br>
+    
+<footer>
+    <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:100px;height:100px;" class="left">
+        <div class="row">
+  <h1 class="rightthin">INDIANA UNIVERSITY</h1>
+    <h2 class="rightthin">Team 15 Consulting</h2>
+        
+        
+    
+        </div></div>
+    
+</footer>
+     
+   
+    </html>

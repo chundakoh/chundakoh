@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+       <link rel="stylesheet" href="create_task.css">
+       <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:60px;height:60px;" class="left">
+    <h1 class="thin">INDIANA UNIVERSITY</h1>
+    
+</div>
+<div class="header2">
+    <h5 class="thin">KELLEY SCHOOL OF BUSINESS</h5>
+    <h2>Globase Guatamala</h2>
+</div>
+
+<div class="navbar">
+  <a href="f-homepage.html">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Faculty 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-view task list.html">View Task List</a>
+      <a href="f-add lt member.html">Add Leadership Team Member</a>
+      <a href="f-send low eval scores.html">View Low Score Reports</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Leadership Team 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="f-create and update task.html">Create Task &amp; Update Task</a>
+        <a href="f-record student interview summary.html">Record Student Interview Summary</a>
+        <a href="f-accept or reject and notify students.html">Accept/Reject &amp; Notify Students</a>
+        <a href="f-create new client.html">Create New Client</a>
+        <a href="f-record client interview summary.html">Record Client Interview Summary</a>
+        <a href="f-accept or reject and notify clients.html">Accept/Reject &amp; Notify Clients</a>
+        <a href="f-request student preferences.html">Request Student Preferences</a>
+        <a href="f-assign teams and leads.html">Assign Teams &amp; Team Leads</a>
+        <a href="f-capture weekly meeting agenda.html">Submit Weekly Meeting Agenda</a>
+        <a href="f-create progress report.html">Create Progress Report</a>
+        <a href="f-confirm final report and presentation.html">Confirm Final Presentation &amp; Report</a>
+        <a href="f-send peer eval request.html">Send Peer Evaluation Request</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Participant 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-receive student application.html">Submit Student Application</a>
+      <a href="f-record student preferences.html">Record Student Preferences</a>
+      <a href="f-capture peer evals.html">Submit Peer Evaluations</a>
+    </div>
+  </div> 
+</div>
+    </head>
+    
+<body>
+    <br>
+  <h2>Accept or Reject Clients</h2>
+  
+    <h4>Potential clients that have already been interviewed for the program are listed below. Click on "View Details" to view the potential client's application and interview summary. Use the "Accept" or "Reject" button to select clients.</h4>
+    
+    <h5>Remember to read and assess the applicant's details before accepting or rejecting! </h5>
+    <br> <br>
+    
+  <h3>Potential Clients</h3>
+  <ul>
+      
+      
+    <li>Cerveceria Centro Americana</li> 
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Client ID: 2000012345</p>
+                <p>Semester: FA2020</p>
+                <p>Point of Contact: Gabriella Gomez</p>
+                <p>Phone Number: 555-123-4567</p>
+                <p>Email: ggomez@gmail.com</p>
+            <h4>Interview Notes</h4>
+            <p>The client was satisfactory in all regards. Medium-sized firm. Seems open and willing to accept new ideas.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The client will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The client will be notified immediately.");}
+                  </script>
+      
+          </div> <br>
+      <li>Industrias Licoreras de Guatemala</li> 
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Client ID: 2000012345</p>
+                <p>Semester: FA2020</p>
+                <p>Point of Contact: Heraldo Hiro</p>
+                <p>Phone Number: 555-123-4567</p>
+                <p>Email: hhiro@gmail.com</p>
+            <h4>Interview Notes</h4>
+            <p>The client was satisfactory in all regards. Medium-sized firm. Seems open and willing to accept new ideas.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The client will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The client will be notified immediately.");}
+                  </script>
+        </div><br>
+      
+      <li>Malher</li> 
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Client ID: 2000012345</p>
+                <p>Semester: FA2020</p>
+                <p>Point of Contact: Catherine Carena</p>
+                <p>Phone Number: 555-123-4567</p>
+                <p>Email: ccarena@gmail.com</p>
+            <h4>Interview Notes</h4>
+            <p>The client was satisfactory in all regards. Medium-sized firm. Seems open and willing to accept new ideas.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The client will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The client will be notified immediately.");}
+                  </script>
+              
+        </div><br>
+      
+      <li>Pollo Campero</li> 
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Client ID: 2000012345</p>
+                <p>Semester: FA2020</p>
+                <p>Point of Contact: Johnny Johnson</p>
+                <p>Phone Number: 555-123-4567</p>
+                <p>Email: jjohnson@gmail.edu</p>
+            <h4>Interview Notes</h4>
+            <p>The client was satisfactory in all regards. Medium-sized firm. Seems open and willing to accept new ideas.</p>
+                    <!--ACCEPT BUTTON-->
+                  <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The client will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The client will be notified immediately.");}
+                  </script>
+              
+        </div><br>
+      
+        <li>Ron Zacapa Centenario</li> 
+      
+      <!--View Interview Summary-->
+      <button class="accordion">
+          View Details
+      </button>
+        <div class="panel">
+            <h4>Application Details</h4>
+                <p>Client ID: 2000012345</p>
+                <p>Semester: FA2020</p>
+                <p>Point of Contact: Mario Miranda</p>
+                <p>Phone Number: 555-123-4567</p>
+                <p>Email: mmiranda@gmail.com</p>
+            <h4>Interview Notes</h4>
+            <p>The client was satisfactory in all regards. Medium-sized firm. Seems open and willing to accept new ideas.</p>
+                    <!--ACCEPT BUTTON-->
+                    <input type="button" onclick="clickAlert()" value="Accept" class="button">
+                  <script>
+                    function clickAlert() {alert("Are you sure you want to accept? The client will be notified immediately.");}
+                  </script>
+
+                  <!--REJECT BUTTON-->
+                  <input type="button" onclick="clickAlert1()" value="Reject" class="button">
+                  <script>
+                    function clickAlert1() {alert("Are you sure you want to reject? The client will be notified immediately.");}
+                  </script>
+
+        </div>
+      
+      </ul>
+    <script>
+         var acc = document.getElementsByClassName("accordion");
+          var i;
+
+          for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+            } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+                    } 
+                });
+            }
+      </script>
+    </body>
+<br> <br>
+    
+<footer>
+    <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:100px;height:100px;" class="left">
+        <div class="row">
+  <h1 class="rightthin">INDIANA UNIVERSITY</h1>
+    <h2 class="rightthin">Team 15 Consulting</h2>
+        
+        
+    
+        </div></div>
+    
+</footer>
+    
+</html>

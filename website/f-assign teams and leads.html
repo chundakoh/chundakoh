@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <link rel="stylesheet" href="create_task.css">
+         <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:60px;height:60px;" class="left">
+    <h1 class="thin">INDIANA UNIVERSITY</h1>
+    
+</div>
+<div class="header2">
+    <h5 class="thin">KELLEY SCHOOL OF BUSINESS</h5>
+    <h2>Globase Guatamala</h2>
+</div>
+
+<div class="navbar">
+  <a href="f-homepage.html">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Faculty 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-view task list.html">View Task List</a>
+      <a href="f-add lt member.html">Add Leadership Team Member</a>
+      <a href="f-send low eval scores.html">View Low Score Reports</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Leadership Team 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="f-create and update task.html">Create Task &amp; Update Task</a>
+        <a href="f-record student interview summary.html">Record Student Interview Summary</a>
+        <a href="f-accept or reject and notify students.html">Accept/Reject &amp; Notify Students</a>
+        <a href="f-create new client.html">Create New Client</a>
+        <a href="f-record client interview summary.html">Record Client Interview Summary</a>
+        <a href="f-accept or reject and notify clients.html">Accept/Reject &amp; Notify Clients</a>
+        <a href="f-request student preferences.html">Request Student Preferences</a>
+        <a href="f-assign teams and leads.html">Assign Teams &amp; Team Leads</a>
+        <a href="f-capture weekly meeting agenda.html">Submit Weekly Meeting Agenda</a>
+        <a href="f-create progress report.html">Create Progress Report</a>
+        <a href="f-confirm final report and presentation.html">Confirm Final Presentation &amp; Report</a>
+        <a href="f-send peer eval request.html">Send Peer Evaluation Request</a>
+    </div>
+  </div> 
+    <div class="dropdown">
+    <button class="dropbtn">Participant 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="f-receive student application.html">Submit Student Application</a>
+      <a href="f-record student preferences.html">Record Student Preferences</a>
+      <a href="f-capture peer evals.html">Submit Peer Evaluations</a>
+    </div>
+  </div> 
+</div>
+    </head>
+                          
+  
+    <br>
+    
+    <h2>Create Teams and Assign Leads</h2>
+    
+  <h4>Follow the instructions below to create a new team. When you are ready to submit, click the "Submit" button at the bottom of the page.</h4>
+        
+<br><br>
+    
+    <body>
+            
+  <label for="fname">Team Name:</label><br><br>
+        <input type="text" id="fname" name="fname" value="Enter team name"><br><br>
+        
+<form>
+    <fieldset>
+        
+        <legend>Select Participants</legend>
+        
+        <h3>Participants</h3>
+            <p>Select 5-6 students for the team. The students listed below are currently unassigned.</p>
+        
+        <form action="/action_page.php" method="get">
+
+            <input type="checkbox" name="student1">
+                <label for="student1"> Amy Alfonso</label><br>
+            <input type="checkbox" name="student2">
+                <label for="student2"> Bill Baxter </label><br>
+            <input type="checkbox" name="student3">
+                <label for="student3"> Christie Crawford</label><br>
+            <input type="checkbox" name="student4">
+                <label for="student4"> Dan Davidson</label><br>
+            <input type="checkbox" name="student5">
+                <label for="student 5"> Eliza Ellington</label><br>
+            <input type="checkbox" name="student6">
+                <label for="student6"> Fred Fitzgerald</label><br>
+            <input type="checkbox" name="student7">
+                <label for="student7"> Grace Ge</label><br>
+            <input type="checkbox" name="student8">
+                <label for="student8"> Heather Hills</label><br>
+            <input type="checkbox" name="student9">
+                <label for="student9"> Isaac Idris</label><br>
+            <input type="checkbox" name="student10">
+                <label for="student10"> Jose Juarez</label><br>
+            
+        </form>
+    </fieldset>
+</form>
+        
+<br><br>
+        
+<form>
+    <fieldset>
+        
+        <legend>Select Team Lead</legend>
+        
+   <h3>Team Leads</h3>
+        <p>Select only 1 Lead for the team. The Leadership Team members listed below are currently unassigned.</p>
+ 
+        <form action="/action_page.php" method="get">
+    
+            <input type="radio" name="lt1">
+                <label for="lt1"> Kerri King</label><br>
+            <input type="radio" name="lt2">
+                <label for="lt2"> LeShawn Livingston</label><br>
+            <input type="radio" name="lt3">
+                <label for="lt3"> Maria Martinez</label><br>
+            <input type="radio" name="lt4">
+                <label for="lt4"> Ni Nguyen</label><br>
+            <input type="radio" name="lt5">
+                <label for="lt5"> Oliver O'Connel</label><br> 
+        
+        </form>
+    </fieldset>
+</form>
+        
+<br><br>
+        
+<form>
+    <fieldset>
+        
+        <legend>Select Client</legend>
+
+ <h3>Clients</h3>
+        <p>Select only 1 client for the team. The clients listed below are currently unassigned.</p>
+        
+
+        <form action="/action_page.php" method="get">
+    
+          <input type="radio" name="client1">
+                <label for="client1"> Pedro's Pies</label><br>
+          <input type="radio" name="client2">
+                <label for="client2"> Quality Quilts</label><br>
+          <input type="radio" name="client3">
+                <label for="client3"> Rich Rice Suppliers</label><br>
+            <input type="radio" name="client4">
+                <label for="client4"> Storage Solutions Co.</label><br>
+            <input type="radio" name="client5">
+          <label for="client5"> Techtivity LLC</label><br> 
+    
+    
+        </form> 
+    </fieldset>
+</form>
+<br><br>
+    
+        <button class="button" type="submit" name="Submit Team" onclick="clickAlert1()">Submit</button>
+      
+        <script> hidden
+            function clickAlert1() {alert("The team has been successfully submitted!");}
+        </script>
+        
+    </body>
+    <br><br>
+<footer>
+    <div class="header1">
+  
+    <img src="IUB.png" alt="logo Icon" style="width:100px;height:100px;" class="left">
+        <div class="row">
+  <h1 class="rightthin">INDIANA UNIVERSITY</h1>
+    <h2 class="rightthin">Team 15 Consulting</h2>
+    
+        </div></div>
+    
+</footer>
+</html>
