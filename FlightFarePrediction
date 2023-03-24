@@ -1,4 +1,4 @@
-name_vec <- "Ethan Meyer, Chun Da Koh, Ryan Marks, Cullin Suter"
+name_vec <- "Chun Da Koh"
 
 #Load Known Routes Data in#
 KnownRoutes_data <- read.csv(file = 'KnownRoutes.csv', header = T, as.is = T)
