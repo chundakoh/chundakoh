@@ -1,0 +1,311 @@
+name_vec <- "Ethan Meyer, Chun Da Koh, Ryan Marks, Cullin Suter"
+
+#Load Known Routes Data in#
+KnownRoutes_data <- read.csv(file = 'KnownRoutes.csv', header = T, as.is = T)
+
+#Explore the Dataset#
+KnownRoutes_data[1:20,]
+head(KnownRoutes_data)
+str(KnownRoutes_data)
+
+#Find any Data Errors#
+which(is.na(KnownRoutes_data$COUPON))
+which(is.na(KnownRoutes_data$NEW))
+which(is.na(KnownRoutes_data$VACATION))
+which(is.na(KnownRoutes_data$SW))
+which(is.na(KnownRoutes_data$HI))
+which(is.na(KnownRoutes_data$S_INCOME))
+which(is.na(KnownRoutes_data$E_INCOME))
+which(is.na(KnownRoutes_data$S_POP))
+which(is.na(KnownRoutes_data$E_POP))
+which(is.na(KnownRoutes_data$SLOT))
+which(is.na(KnownRoutes_data$GATE))
+which(is.na(KnownRoutes_data$DISTANCE))
+which(is.na(KnownRoutes_data$PAX))
+which(is.na(KnownRoutes_data$FARE))
+  
+#What type of Data in the Yes/No Columns#
+KnownRoutes_data$VACATION
+KnownRoutes_data$GATE
+KnownRoutes_data$SW
+KnownRoutes_data$SLOT
+  
+#Clean/Transform Dataset#
+#Transform Text Variables of Vacation and Gate to 0's and 1's#
+index_Yes_Vacation <- which(KnownRoutes_data$VACATION == "Yes")
+index_No_Vacation <- which(KnownRoutes_data$VACATION == "No")
+index_Constrained_Gate <- which(KnownRoutes_data$GATE == "Constrained")
+index_Free_Gate <- which(KnownRoutes_data$GATE == "Free")
+  
+KnownRoutes_data$VACATION[index_Yes_Vacation] <- 1
+KnownRoutes_data$VACATION[index_No_Vacation] <- 0
+KnownRoutes_data$GATE[index_Constrained_Gate] <- 1
+KnownRoutes_data$GATE[index_Free_Gate] <- 0
+
+#Convert character field to integer type for analysis#
+KnownRoutes_data$VACATION <- as.integer(KnownRoutes_data$VACATION)
+KnownRoutes_data$GATE <- as.integer(KnownRoutes_data$GATE)
+
+  
+#Determine Relevant Variables for a Regression on Fares#
+summary(KnownRoutes_data)
+cor(KnownRoutes_data[,-c(1:4)])
+boxplot(KnownRoutes_data$FARE ~ KnownRoutes_data$SW)
+hist(KnownRoutes_data$FARE)
+#Fares most highly correlated with Coupon, SW, and Distance. E_Income could also be interesting to regress#
+
+#First Regression Model with Coupon, SW and Distance#
+#Setting Training/Validation set#
+train_size <- 0.6 * nrow(KnownRoutes_data)
+set.seed(500)
+train_index <- sample(x = 1:nrow(KnownRoutes_data), size = train_size)
+train_set <- KnownRoutes_data[train_index, ]
+valid_set <- KnownRoutes_data[-train_index, ]
+
+#Creating Models#
+model1 <- lm(formula = FARE ~ COUPON + DISTANCE, data = train_set)
+coef(model1)
+
+model2 <- lm(formula = FARE ~ COUPON + DISTANCE + E_POP + E_INCOME, data = train_set)
+coef(model2)
+options(scipen=999)
+
+model3 <- lm(formula = FARE ~ DISTANCE, data = train_set)
+coef(model3)
+
+summary(model1)  
+summary(model2)
+summary(model3)
+
+#Removing Coupon and Testing Significance of E_POP/Income#
+model4 <-lm(formula = FARE ~ SW + DISTANCE + E_POP + E_INCOME, data = train_set)
+coef(model4)
+
+model5 <-lm(formula = FARE ~ SW + DISTANCE + E_POP, data = train_set)
+coef(model5)
+
+model6 <-lm(formula = FARE ~ SW + DISTANCE + E_INCOME, data = train_set)
+coef(model6)
+
+summary(model4)
+summary(model5)
+summary(model6)
+#Creating Optimal Regression Model to Predict Fares#
+#Adding in Vacation and Herfindel Index for Qualitative Reasons#
+OptimalModel1 <- lm(formula = FARE ~ SW + DISTANCE + VACATION + HI + SLOT, data = train_set)
+coef(OptimalModel1)
+summary(OptimalModel1)
+
+OptimalModel2 <- lm(formula = FARE ~ SW + DISTANCE + VACATION + HI, data = train_set)
+coef(OptimalModel2)
+summary(OptimalModel2)
+#Evaluate Performance of the models#
+#Partition#
+train_size <- 0.5 * nrow(KnownRoutes_data)
+set.seed(500)
+train_index <- sample(x = 1:nrow(KnownRoutes_data), size = train_size)
+train_set <- KnownRoutes_data[train_index, ]
+valid_set <- KnownRoutes_data[-train_index, ]
+
+#Predict Fares for Model 1#
+pred_m1_valid <- predict(object = OptimalModel1, newdata = valid_set)
+m1_actual_valid <- valid_set$FARE
+errors_m1_valid <- m1_actual_valid - pred_m1_valid
+ME_m1_valid <- mean(errors_m1_valid)
+RMSE_m1_valid <- sqrt(mean((errors_m1_valid)^2))
+c(ME_m1_valid, RMSE_m1_valid)
+
+#Predict Fares for Model 2#
+pred_m2_valid <- predict(object = OptimalModel2, newdata = valid_set)
+m2_actual_valid <- valid_set$FARE
+errors_m2_valid <- m2_actual_valid - pred_m2_valid
+
+ME_m2_valid <- mean(errors_m2_valid)
+RMSE_m2_valid <- sqrt(mean((errors_m2_valid)^2))
+c(ME_m2_valid, RMSE_m2_valid)
+    
+#Plots Errors Model 1#
+boxplot(errors_m1_valid, main= "Box plot of Prediction Errors")
+hist(errors_m1_valid, main= "Histogram of Prediction Errors")
+#Plots Errors Model 2#
+boxplot(errors_m2_valid, main= "Box plot of Prediction Errors")
+hist(errors_m2_valid, main= "Histogram of Prediction Errors")
+
+#Evaluate Overfitting#
+#Model 1#
+pred_m1_train <- predict(object = OptimalModel1, newdata = train_set)
+actual_train <- train_set$FARE
+errors_m1_train <- actual_train - pred_m1_train
+#Errors for Training Set#
+RMSE_m1_train <- sqrt(mean((errors_m1_train)^2))
+RMSE_m1_train
+#Errors for Valid Set Compared to Training Set#
+RMSE_m1_train
+RMSE_m1_valid
+
+#Model 2#
+pred_m2_train <- predict(object = OptimalModel2, newdata = train_set)
+actual_train <- train_set$FARE
+errors_m2_train <- actual_train - pred_m2_train
+#Errors for Training Set#
+RMSE_m2_train <- sqrt(mean((errors_m2_train)^2))
+RMSE_m2_train
+#Errors for Valid Set Compared to Training Set#
+RMSE_m2_train
+RMSE_m2_valid
+
+#Compare Two Models#
+RMSE_m1_train
+RMSE_m1_valid
+
+RMSE_m2_train
+RMSE_m2_valid
+
+summary(OptimalModel1)
+summary(OptimalModel2)
+
+#Using Regression Tree for Part 2 Fare
+library(rpart)
+regressiontreemodel <- rpart(formula = FARE ~ SW + DISTANCE + VACATION + HI + SLOT, 
+                data = train_set, method = "anova")
+library(rpart.plot)
+prp(regressiontreemodel, type = 1, extra = 1)
+
+regresstree_predict <- predict(object = regressiontreemodel, newdata = valid_set)
+regresstree_actual_train <- valid_set$FARE
+regresstree_errorsvalid <- regresstree_actual_train - regresstree_predict
+RMSE_regresstree <- sqrt(mean((regresstree_errorsvalid)^2))
+
+
+
+#Part 3: Estimating whether SouthWest will serve the new unknown route
+#Part 3: Method 1:Logistic Regression Model
+#Setting up the Logistic Regression Model
+logtrain_set <- train_set[,c(-1,-2,-3,-4,-18)]
+logistic_model <- glm(formula = SW ~ .
+                  , data = logtrain_set, family = "binomial")
+#Predictions
+logistic_modelprob <- predict(object = logistic_model, newdata = valid_set, 
+                   type = "response")
+#Setting classification cutoff
+library(caret)
+cutoff <- 0.35
+pred_logisticmodel <- ifelse(logistic_modelprob>cutoff,yes = 1, no = 0)
+actual_class_valid <- valid_set$SW
+confusionMatrix(as.factor(pred_logisticmodel), 
+                as.factor(actual_class_valid), positive = "1")
+#Performance Evaluation
+library(caret)
+lift0 <- lift(relevel(as.factor(valid_set$SW), ref = "1") 
+              ~ logistic_modelprob, data = valid_set)
+xyplot(lift0, plot = "gain")
+
+#Part 3: Method 2: Decision Tree
+#Setting up the decision tree classification model
+library(rpart)
+dtreetrain_set <- train_set[,c(-1,-2,-3,-4,-18)]
+decisiontree_model <- rpart(formula = SW ~ ., 
+                 data = dtreetrain_set, method = "class", cp = 0.010638, maxdepth = 4)
+printcp(decisiontree_model)
+#Generate the tree diagram
+library(rpart.plot)
+prp(decisiontree_model, type = 1, extra = 1)
+decisiontree_prob <- predict(object = decisiontree_model, newdata = valid_set, 
+                               type = "prob")
+#Turn probabilities into classification
+cutoff <- 0.5
+pred_decisiontree <- ifelse(decisiontree_prob[ ,2]>cutoff, yes = 1, no = 0)
+#Model performance evaluation
+library(caret)
+decisiontree_valid <- valid_set$SW
+confusionMatrix(as.factor(pred_decisiontree), 
+                as.factor(decisiontree_valid), positive = "1")
+lift_decisiontree <- lift(relevel(as.factor(valid_set$SW), ref = "1") 
+                  ~ decisiontree_prob[ ,2], data = valid_set)
+
+xyplot(lift_decisiontree, plot = "gain")
+
+
+
+#Part 4
+#Model to predict
+#Transform the New Routes Data before analysis
+NewRoutes_data <- read.csv(file = 'NewRoutes.csv', header = T, as.is = T)
+#Convert the fields with Yes/No and Constrained/Free to 1/0
+NewYes_Vacation <- which(NewRoutes_data$VACATION == "Yes")
+NewNo_Vacation <- which(NewRoutes_data$VACATION == "No")
+NewConstrained_Gate <- which(NewRoutes_data$GATE == "Constrained")
+NewFree_Gate <- which(NewRoutes_data$GATE == "Free")
+NewRoutes_data$VACATION[NewYes_Vacation] <- 1
+NewRoutes_data$VACATION[NewNo_Vacation] <- 0
+NewRoutes_data$GATE[NewConstrained_Gate] <- 1
+NewRoutes_data$GATE[NewFree_Gate] <- 0
+#Convert character field to integer type for analysis#
+NewRoutes_data$VACATION <- as.integer(NewRoutes_data$VACATION)
+NewRoutes_data$GATE <- as.integer(NewRoutes_data$GATE)
+
+#Part 4
+#Predict Route
+SWall <- predict(object = decisiontree_model, newdata = NewRoutes_data, type = "prob")
+NewRoutes_data['SW'] <- ifelse(SWall[ ,2]>.7, yes = 1, no = 0)
+BaltimoreFares <- predict(object = OptimalModel1, newdata = NewRoutes_data[1,])
+TampaFLFares <- predict(object = OptimalModel1, newdata = NewRoutes_data[2,])
+IADFares <- predict(object = OptimalModel1, newdata = NewRoutes_data[3,])
+DCAFares <- predict(object = OptimalModel1, newdata = NewRoutes_data[4,])
+
+#Part 5 and Part 6
+#Creating Two Type of Functions (SW = 0 or 1) 
+#Function for when SW serves the route
+#The output value of the function will be in the order of 90% Fare, Normal Fare and 110% Fare,
+#followed by each of the value probability of being profit(over 1 million$)
+function_price <- function(x,y,fares){
+  revenueroute1type0 <- c()
+  revenueroute1type1 <- c()
+  revenueroute1type2 <- c()
+  nsim <- 1000
+  set.seed(0)
+  for(i in 1:nsim){
+    passenger <-rnorm(n = 1, mean = x, sd = y)
+  ## Calculate the profit for a given demand value
+    if (passenger>0){
+      revenueroute1type0[i]<- .9*fares*passenger + 20*round((fares-fares*.9),0)
+      revenueroute1type1[i] <- fares*passenger
+      revenueroute1type2[i]<- 1.1*fares*passenger - 20*round((fares*1.1-fares),0)
+    }else{
+      revenueroute1type0[i] <- 0
+      revenueroute1type1[i] <- 0
+      revenueroute1type2[i] <- 0
+    }
+  }
+  return(c(mean(revenueroute1type0),mean(revenueroute1type0>1000000),mean(revenueroute1type1),mean(revenueroute1type1>1000000),
+           mean(revenueroute1type2),mean(revenueroute1type2>1000000)))
+
+}
+
+#Function for SW is not serving the route
+#The output value of the function will be average revenue and
+#followed by the probability of being profit(over 1 million$)
+function_NOSW <- function(x,y,fares){
+  revenuerouteNOSW <- c()
+  nsim <- 1000
+  set.seed(0)
+  for(i in 1:nsim){
+    passenger <-rnorm(n = 1, mean = x, sd = y)
+    revenuerouteNOSW[i] <- fares*passenger
+    return(c(mean(revenuerouteNOSW),mean(revenuerouteNOSW>1000000)))
+  }
+}
+
+# Route Info From Previous Prediction
+# Route1_Baltimore <- rnorm(n=1, mean = 10264, sd = 4000)
+# Route2_tampa <-rnorm(n = 1, mean = 4749, sd = 2000)
+# Route3_IAD <-rnorm(n = 1, mean = 4957, sd = 2000)
+# Route4_DCA <-rnorm(n = 1, mean = 4957, sd = 100)
+
+# Route 1 and Route 2 (predicted SW = 1, so use function_price)
+Route1info <- function_price(10264,4000,BaltimoreFares)
+Route2info <- function_price(4749,2000,TampaFLFares)
+
+# Route 3 and Route 4 (predicted SW = 0, so use function_NOSW)
+Route3info <- function_NOSW(4957,2000,IADFares)
+Route4info <- function_NOSW(4957,100,DCAFares)
