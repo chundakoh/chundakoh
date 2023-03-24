@@ -1,0 +1,403 @@
+library(dplyr)
+
+df <- read.csv(file = 'BankChurners.csv')
+
+
+#Examine and check whichever columns are needed
+summary(df)
+names(df)
+View(df)
+
+#Dropping the last two column (The columns are not needed)
+df<- df %>% select(Attrition_Flag:Avg_Utilization_Ratio)
+
+#Total numbers of row before cleaning: 10127
+nrow(df)
+
+#Check the numbers of two type customer (8500,1627)
+sum(df$Attrition_Flag == "Existing Customer")
+sum(df$Attrition_Flag == "Attrited Customer")
+
+#Check the unique values in each column that are not int or num
+unique(df$Attrition_Flag)
+unique(df$Gender)
+unique(df$Education_Level)
+unique(df$Marital_Status)
+unique(df$Income_Category)
+unique(df$Card_Category)
+
+#Two columns contain unknown
+sum(df$Education_Level == "Unknown")
+sum(df$Income_Category == "Unknown")
+
+#Try to remove the unknown from data:   (5968, 1113)
+df <- df[df$Education_Level != "Unknown",]
+df<- df[df$Income_Category != "Unknown",]
+df <- df[df$Marital_Status != "Unknown",]
+sum(df$Attrition_Flag == "Existing Customer")
+sum(df$Attrition_Flag == "Attrited Customer")
+
+#Changing columns with characters into factors
+# AttritionFlag: Existing Customer = 0, Attrited Customer = 1
+df$Attrition_Flag <- ifelse(df$Attrition_Flag == 'Existing Customer',0,1)
+# Gender: Female = 0, Male = 1
+df$Gender <- as.factor(df$Gender)
+# Education with levels: 1 being lowest (Uneducated), 6 being highest (Doctorate)
+df$Education_Level <- as.factor(df$Education_Level)
+df$Education_Level <- relevel(df$Education_Level, ref = "Uneducated")
+# IncomeCategory: 1 being least earning, 5 being highest earning
+df$Income_Category <- as.factor(df$Income_Category)
+df$Income_Category <- relevel(df$Income_Category, ref = "Less than $40K")
+# Card Category
+df$Card_Category <- as.factor(df$Card_Category)
+df$Card_Category <- relevel(df$Card_Category, ref = "Blue")
+# Marital Status
+df$Marital_Status <- as.factor(df$Marital_Status)
+df$Marital_Status <- relevel(df$Marital_Status, ref = "Single")
+
+
+### Package for visualizing missing values
+library(VIM)
+### visualization
+aggr(df, cex.axis=0.5)
+aggr(df,combined = TRUE, numbers=TRUE, cex.numbers=0.5)
+
+###Checking outliers
+
+### correlation
+#install.packages("reshape2")
+#library(reshape2)
+# reduce the size of correlation matrix
+#melted_corr_mat <- melt(corr_mat)
+# plotting the correlation heatmap
+#library(ggplot2)
+#ggplot(data = melted_corr_mat, aes(x=Var1, y=Var2, fill=value)) +
+#geom_tile()
+
+
+
+# PCA test (PCA test does not explain too mcuh variation, recommend run with normal data)
+par(mfrow=c(1,1))
+df2 <- as.data.frame(sapply(df, as.numeric))
+# PCA equation
+pca.bankchurn <- prcomp(df2[,c(2:20)], scale = TRUE)
+summary(pca.bankchurn)
+# Plotting the PCA factors graph
+plot(pca.bankchurn,main="PCA: Variance Explained by Factors")
+mtext(side=1, "Factors",  line=1, font=2)
+# Investigate the first two PCAs
+# PCA 1: Avg_Open_To_Buy and Credit_Limit
+loadings <- pca.bankchurn$rotation[,1:4]
+v<-loadings[order(abs(loadings[,1]), decreasing=TRUE)[1:27],1]
+loadingfit <- lapply(1:27, function(k) ( t(v[1:k])%*%v[1:k] - 3/4 )^2)
+v[1:which.min(loadingfit)]
+#PCA 2: Total_Trans_Amt
+v<-loadings[order(abs(loadings[,2]), decreasing=TRUE)[1:27],2]
+loadingfit <- lapply(1:27, function(k) ( t(v[1:k])%*%v[1:k] - 3/4 )^2)
+v[1:which.min(loadingfit)]
+
+#K-means
+
+library(class)
+xdata <- model.matrix(Attrition_Flag ~ ., data=df, family=binomial)[,-1]
+#Add scale to standardize
+xdata <- scale(xdata)
+#KMeans with AIC, BIC and HDIC to find best clusters size
+kfit <- lapply(2:12, function(k) kmeans(xdata,k))
+kaicc <- sapply(kfit,kIC)
+kbic  <- sapply(kfit,kIC,"B")
+kHDic  <- sapply(kfit,kIC,"C")
+## Now we plot them, first we plot AIC
+plot(kaicc, xlab="K", ylab="IC", 
+     ylim=c(600,max(c(kaicc,kbic,kHDic))+250000),
+     type="l", lwd=2)
+# Vertical line where AIC is minimized
+abline(v=which.min(kaicc))
+# Next we plot BIC
+lines(kbic, col=4, lwd=2)
+# Vertical line where BIC is minimized
+abline(v=which.min(kbic),col=4)
+# Next we plot HDIC
+lines(kHDic, col=5, lwd=2)
+# Vertical line where BIC is minimized
+abline(v=which.min(kHDic),col=5)
+# Insert labels
+text(c(which.min(kaicc),which.min(kbic),which.min(kHDic)),c(mean(kaicc)-30000,mean(kbic),mean(kHDic)),c("AIC","BIC","HDIC"))
+
+v <- which.min(kHDic) #Min number of cluster
+BankChurnCenters.min <- kmeans(xdata,v)
+BankChurnCenters.min$centers[1,]
+BankChurnCenters.min$centers[2,]
+BankChurnCenters.min$centers[3,]
+BankChurnCenters.min$centers[4,]
+### Sizes of clusters
+BankChurnCenters.min$size
+### variation explained with 4 clusters
+1 - BankChurnCenters.min$tot.withinss/ BankChurnCenters.min$totss
+
+####Max number of clusters#############
+
+v <- which.max(kHDic) #number of cluster
+BankChurnCenters.max <- kmeans(xdata,v)
+BankChurnCenters.max$centers[1,]
+BankChurnCenters.max$centers[2,]
+BankChurnCenters.max$centers[3,]
+BankChurnCenters.max$centers[4,]
+BankChurnCenters.max$centers[5,]
+BankChurnCenters.max$centers[6,]
+BankChurnCenters.max$centers[7,]
+BankChurnCenters.max$centers[8,]
+BankChurnCenters.max$centers[9,]
+BankChurnCenters.max$centers[10,]
+### Sizes of clusters
+BankChurnCenters.max$size
+### variation explained with 4 clusters
+1 - BankChurnCenters.max$tot.withinss/ BankChurnCenters.max$totss
+aggregate(df$Attrition_Flag == 1 ~BankChurnCenters.min$cluster, FUN=mean)
+aggregate(df$Attrition_Flag == 1 ~BankChurnCenters.max$cluster, FUN=mean)
+### how to interpret clusters?
+#BankChurnCenters.max$centers[2,]
+
+
+
+#Splitting data into test and train
+train_size <- .8*nrow(df)
+set.seed(200)
+train_index <- sample(x = 1:nrow(df), size = train_size, replace = F)
+train_set <- df[train_index, ]
+test_set <- df[-train_index, ]
+trainset_size <- nrow(train_set)
+testset_size <- nrow(test_set)
+
+#Checking how balance the data is:
+mean(train_set$Attrition_Flag==1)
+mean(test_set$Attrition_Flag==1)
+
+### see correlations ####
+installpkg("ggplot2")
+installpkg("GGally")
+library(ggplot2)
+library(GGally)
+ggpairs(train_set[,c(1:20)])
+ggpairs(test_set[,c(1:20)])
+
+aggregate(train_set$Attrition_Flag==1~train_set$Months_on_book, FUN=mean)
+plot(Attrition_Flag ~ Months_on_book, data=train_set, col=c(8,2), ylab="Churn Rate", xlab="Months with bank")
+
+# Logistic regression
+model_LR <-glm(Attrition_Flag~., data=df, subset=train,family="binomial")
+pred_LR <- predict(model_LR, newdata=df[-train,], type="response")
+
+#SVM
+installpkg("e1071")
+installpkg("rpart")
+library(e1071)
+library(rpart)
+model_SVM <- svm(Attrition_Flag~ ., data=df, type="C-classification", kernel="linear")#, cost = 10, gamma=1)
+pred_SVM <- predict(model_SVM,newdata=df[-train,])
+
+# Tree model
+library(tree)
+model_Tree <- tree(Attrition_Flag~ ., data=df, subset=train) 
+pred_Tree <- predict(model_Tree, newdata=df[-train,], type="vector")
+
+# Random Forest Model
+installpkg("randomForest")
+library(randomForest)
+model.RForest <- randomForest(Attrition_Flag~., data=train_set, nodesize=5, ntree = 500, mtry = 4)
+pred.RForest<- predict(model.RForest, newdata=test_set, type ="response")
+
+#Lasso
+installpkg("glmnet")
+library(glmnet)
+Mx<- model.matrix(Attrition_Flag ~ .^2, data=train_set)[,-1]
+My<- train_set$Attrition_Flag == 1
+lasso <- glmnet(Mx,My, family="binomial")
+lassoCV <- cv.glmnet(Mx,My, family="binomial")
+
+num.features <- ncol(Mx)
+num.n <- nrow(Mx)
+num.churn <- sum(My)
+w <- (num.churn/num.n)*(1-(num.churn/num.n))
+lambda.theory <- sqrt(w*log(num.features/0.05)/num.n)
+lassoTheory <- glmnet(Mx,My, family="binomial",lambda = lambda.theory)
+summary(lassoTheory)
+support(lassoTheory$beta)
+
+features.min <- support(lasso$beta[,which.min(lassoCV$cvm)])
+length(features.min) 
+features.1se <- support(lasso$beta[,which.min( (lassoCV$lambda-lassoCV$lambda.1se)^2)])
+length(features.1se) 
+features.theory <- support(lassoTheory$beta)
+length(features.theory) 
+data.min <- data.frame(Mx[,features.min],My)
+data.1se <- data.frame(Mx[,features.1se],My)
+data.theory <- data.frame(Mx[,features.theory],My)
+
+
+# Measure performance of different model
+PerformanceMeasure <- function(actual, prediction, threshold=.5) {
+  #1-mean( abs( (prediction>threshold) - actual ) )  
+  #R2(y=actual, pred=prediction, family="binomial")
+  1-mean( abs( (prediction- actual) ) )  
+}
+
+
+#K-fold for model validation
+library(tree)
+n <- nrow(train_set)
+nfold <- 10
+OOS <- data.frame(model_LR=rep(NA,nfold), model_LI = rep(NA,nfold), model_LRL.min=rep(NA,nfold), model_LRL.1se=rep(NA,nfold), model_LRL.theory=rep(NA,nfold), model_LRPL.min=rep(NA,nfold), model_LRPL.theory=rep(NA,nfold), model_LRPL.1se=rep(NA,nfold), model_Tree=rep(NA,nfold), model_RForest =rep(NA,nfold),model_AVG=rep(NA,nfold),model_Null=rep(NA,nfold)) #names(OOS)<- c("Logistic Regression", "Lasso on LR with Interactions", "Post Lasso on LR with Interactions", "Classification Tree", "Average of Models")
+foldid <- rep(1:nfold,each=ceiling(n/nfold))[sample(1:n)]
+
+for(k in 1:nfold){ 
+  train <- which(foldid!=k) # train on all but fold `k'
+  
+  ### Logistic regression
+  model_LR <-glm(Attrition_Flag~., data=train_set, subset=train,family="binomial")
+  pred_LR <- predict(model_LR, newdata=train_set[-train,], type="response")
+  OOS$model_LR[k] <- PerformanceMeasure(actual=My[-train], pred=pred_LR)
+  
+  ### Log with interaction
+  model_LI <-glm(Attrition_Flag~.^2, data=train_set, subset=train, family="binomial")
+  pred_LI <- predict(model_LI, newdata=train_set[-train,], type="response")
+  OOS$model_LI[k] <- PerformanceMeasure(actual=My[-train], pred=pred_LI)
+  
+  ### the Post Lasso Estimates
+  model_LRPL.min <- glm(My~., data=data.min, subset=train, family="binomial")
+  pred_LRPL.min <- predict(model_LRPL.min, newdata=data.min[-train,], type="response")
+  OOS$model_LRPL.min[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_LRPL.min)
+  
+  model_LRPL.theory <- glm(My~., data=data.theory, subset=train, family="binomial")
+  pred_LRPL.theory <- predict(model_LRPL.theory, newdata=data.theory[-train,], type="response")
+  OOS$model_LRPL.theory[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_LRPL.theory)
+  
+  model_LRPL.1se <- glm(My~., data=data.1se, subset=train, family="binomial")
+  pred_LRPL.1se <- predict(model_LRPL.1se, newdata=data.1se[-train,], type="response")
+  OOS$model_LRPL.1se[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_LRPL.1se)
+  
+  ### the Lasso estimates  
+  model_LRL.min  <- glmnet(Mx[train,],My[train], family="binomial",lambda = lassoCV$lambda.min)
+  pred_LRL.min <- predict(model_LRL.min, newx=Mx[-train,], type="response")
+  OOS$model_LRL.min[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_LRL.min)
+  
+  model_LRL.theory  <- glmnet(Mx[train,],My[train], family="binomial",lambda = lambda.theory)
+  pred_LRL.theory <- predict(model_LRL.theory, newx=Mx[-train,], type="response")
+  OOS$model_LRL.theory[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_LRL.theory)
+  
+  model_LRL.1se  <- glmnet(Mx[train,],My[train], family="binomial",lambda = lassoCV$lambda.1se)
+  pred_LRL.1se <- predict(model_LRL.1se, newx=Mx[-train,], type="response")
+  OOS$model_LRL.1se[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_LRL.1se)
+  
+  ### the classification tree
+  model_Tree <- tree(Attrition_Flag~ ., data=train_set, subset=train) 
+  pred_Tree <- predict(model_Tree, newdata=train_set[-train,], type="vector")
+  OOS$model_Tree[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_Tree)
+  
+  # random forest
+  model_RForest <- randomForest(Attrition_Flag~., data=train_set, subset=train, nodesize=5, ntree = 500, mtry = 4)
+  pred_RForest<- predict(model_RForest, newdata=train_set[-train,], type ="response")
+  OOS$model_RForest[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_RForest)
+  
+  # average of all model
+  pred_MAve <- rowMeans(cbind(pred_Tree,pred_LRL.1se, pred_LRL.min, pred_LRL.theory, pred_LRPL.min, pred_LRPL.1se, pred_LRPL.theory, pred_LR,pred_RForest, pred_LI))
+  OOS$model_AVG[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_MAve)
+  
+  # null model
+  model_Null <-glm(Attrition_Flag~ 1., data=train_set, subset=train,family="binomial")
+  pred_Null <- predict(model_Null, newdata=train_set[-train,], type="response")
+  OOS$model_Null[k] <- PerformanceMeasure(actual=My[-train], prediction=pred_Null)
+  
+  
+  print(paste("Iteration",k,"of",nfold,"completed"))
+  
+}    
+# Plotting the bar graph for model performance for accuracy
+par(mar=c(7,5,.5,1)+0.3)
+barplot(colMeans(OOS), las=2,xpd=FALSE , xlab="", ylim=c(0.8*min(colMeans(OOS)),1.02*max(colMeans(OOS))), ylab = bquote( "Average Out of Sample Performance"), main = "Accuracy Chart")
+colMeans(OOS)
+
+###Using three best model to confirm which is the best
+# Log with interaction
+model_LI <-glm(Attrition_Flag~.^2,  data=df, subset=train, family="binomial")
+pred_LI <- predict(model_LI, newdata=test_set, type="response")
+PerformanceMeasure(actual=test_set$Attrition_Flag, pred=pred_LI)
+
+#tree model
+library(tree)
+pred_Tree <- predict(model_Tree, newdata=test_set, type="vector")
+PerformanceMeasure(actual=test_set$Attrition_Flag, prediction=pred_Tree)
+
+#random forest
+library(randomForest)
+model_RForest <- randomForest(Attrition_Flag~., data=df, subset=train, nodesize=5, ntree = 500, mtry = 4)
+pred_RForest<- predict(model_RForest, newdata=test_set, type ="response")
+PerformanceMeasure(actual=test_set$Attrition_Flag, prediction=pred_RForest)
+
+#Target all of the customer
+test_set$PredictedValue <- pred_RForest
+test_set<- test_set[order(-test_set$PredictedValue),]
+amtrow <- round(nrow(test_set))
+target <- test_set[1:amtrow,]
+#FPRTPR confusion matrix
+source("PerformanceCurves.R")
+PL.performance <- FPR_TPR(target$PredictedValue>=0.5 , target$Attrition_Flag)
+PL.performance
+confusion.matrix <- c( PL.performance$TP, PL.performance$FP,PL.performance$FN,  PL.performance$TN )
+#Assuming the benefit and cost for retaining customer per year
+#Estimate the benefit of a customer staying is 
+mean(target$Credit_Limit)
+median(target$Credit_Limit)
+hist(target$Credit_Limit)
+cost.benefit.matrix <- c(-150,95+(median(target$Credit_Limit)*.05)-150 , 0 , 95+(median(target$Credit_Limit)*.05) )
+### Expected profit
+t(cost.benefit.matrix) %*% confusion.matrix
+### Baseline of majority rule (nobody churn prediction)
+cost.benefit.matrix %*% c( 0, 0, sum(target$Attrition_Flag), sum(!target$Attrition_Flag) )
+# Model performance curve
+roccurve <-  roc(p=target$PredictedValue, y=target$Attrition_Flag, bty="n")
+profitcurve <- profitcurveAll(p=target$PredictedValue,y=target$Attrition_Flag,cost.benefit.m=cost.benefit.matrix)
+cumulative <- cumulativecurve(p=target$PredictedValue,y=target$Attrition_Flag)
+lift <- liftcurve(p=target$PredictedValue,y=target$Attrition_Flag)
+
+###################data intepretation###########################
+Mx.i<- model.matrix(Attrition_Flag ~ ., data=df)[,-1]
+My.i<- df$Attrition_Flag == 1
+lasso <- glmnet(Mx.i,My.i, family="binomial")
+lassoCV <- cv.glmnet(Mx.i,My.i, family="binomial")
+
+num.features <- ncol(Mx.i)
+num.n <- nrow(Mx.i)
+num.churn <- sum(My.i)
+w <- (num.churn/num.n)*(1-(num.churn/num.n))
+lambda.theory <- sqrt(w*log(num.features/0.05)/num.n)
+lassoTheory <- glmnet(Mx.i,My.i, family="binomial",lambda = lambda.theory)
+summary(lassoTheory)
+support(lassoTheory$beta)
+
+features.min <- support(lasso$beta[,which.min(lassoCV$cvm)])
+length(features.min) 
+features.1se <- support(lasso$beta[,which.min( (lassoCV$lambda-lassoCV$lambda.1se)^2)])
+length(features.1se) 
+features.theory <- support(lassoTheory$beta)
+length(features.theory) 
+data.min <- data.frame(Mx.i[,features.min],My.i)
+data.1se <- data.frame(Mx.i[,features.1se],My.i)
+data.theory <- data.frame(Mx.i[,features.theory],My.i)
+
+model_LRPL.theory.i <- glm(My.i~., data=data.theory, family="binomial")
+pred_LRPL.theory.i <- predict(model_LRPL.theory, newdata=data.theory[-train,], type="response")
+OOS$model_LRPL.theory.i[k] <- PerformanceMeasure(actual=My.i[-train], prediction=pred_LRPL.theory.i)
+
+summary(model_LRPL.theory.i)
+exp(model_LRPL.theory.i$coefficients)
+
+#4. Age - The beta coefficient of the age variable is 0.023362, which is in the logit of odds terms. 
+#When we convert this to odds by taking exp(0.023362) we get 1.023. The value indicates that as 
+#age increase by one more unit, then the odds of an individual being in the high-income group will 
+#increase by 2%.
+
+#Note
+#Odds value is never negative, and the value of 1 indicates that this variable has no impact 
+#on the target variables. If the value is less than one then the value is read as (1 - value) as 
+#a decrease in odds and a value greater than one indicates an increase in the odds.
